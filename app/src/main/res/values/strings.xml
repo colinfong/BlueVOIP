@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="turn_on">TURN ON</string>
+    <string name="turn_off">TURN OFF</string>
+    <string name="get_visible">GET VISIBLE</string>
+    <string name="find_devices">FIND DEVICES</string>
+    <string name="list_devices">LIST DEVICES</string>
+    <string name="record">RECORD</string>
+    <string name="stop">STOP</string>
+    <string name="play">PLAY</string>
+    <string name="action_settings">Settings</string>
+    <item name="action_settings" type="id">Settings</item>
+</resources>
