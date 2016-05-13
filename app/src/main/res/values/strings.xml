@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">My Application</string>
-<<<<<<< HEAD
     <string name="turn_on">TURN ON</string>
     <string name="turn_off">TURN OFF</string>
     <string name="get_visible">GET VISIBLE</string>
@@ -9,9 +8,6 @@
     <string name="record">RECORD</string>
     <string name="stop">STOP</string>
     <string name="play">PLAY</string>
-=======
-    <string name="hello_world">Hello world!</string>
->>>>>>> origin/master
     <string name="action_settings">Settings</string>
     <item name="action_settings" type="id">Settings</item>
 </resources>

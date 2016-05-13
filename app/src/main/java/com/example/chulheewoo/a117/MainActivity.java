@@ -10,20 +10,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 
 import android.graphics.Color;
-<<<<<<< HEAD
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
-=======
->>>>>>> origin/master
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 
 import android.os.Bundle;
-<<<<<<< HEAD
 import android.os.Environment;
-=======
->>>>>>> origin/master
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,19 +29,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-<<<<<<< HEAD
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.io.IOException;
-=======
->>>>>>> origin/master
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-<<<<<<< HEAD
 public class MainActivity extends Activity {
     private BluetoothAdapter BA;
     private Set<BluetoothDevice> pairedDevices;
@@ -60,20 +50,12 @@ public class MainActivity extends Activity {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-=======
-public class MainActivity extends Activity  {
-    Button b1,b2,b3,b4;
-    private BluetoothAdapter BA;
-    private Set<BluetoothDevice>pairedDevices;
-    ListView lv;
->>>>>>> origin/master
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-<<<<<<< HEAD
         BA = BluetoothAdapter.getDefaultAdapter();
         lv = (ListView) findViewById(R.id.listView);
 
@@ -168,40 +150,10 @@ public class MainActivity extends Activity  {
     }
 
     public void visible(View v) {
-=======
-        b1 = (Button) findViewById(R.id.button);
-        b2=(Button)findViewById(R.id.button2);
-        b3=(Button)findViewById(R.id.button3);
-        b4=(Button)findViewById(R.id.button4);
-
-        BA = BluetoothAdapter.getDefaultAdapter();
-        lv = (ListView)findViewById(R.id.listView);
-    }
-
-    public void on(View v){
-        if (!BA.isEnabled()) {
-            Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(turnOn, 0);
-            Toast.makeText(getApplicationContext(),"Turned on",Toast.LENGTH_LONG).show();
-        }
-        else
-        {
-            Toast.makeText(getApplicationContext(),"Already on", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    public void off(View v){
-        BA.disable();
-        Toast.makeText(getApplicationContext(),"Turned off" ,Toast.LENGTH_LONG).show();
-    }
-
-    public  void visible(View v){
->>>>>>> origin/master
         Intent getVisible = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
         startActivityForResult(getVisible, 0);
     }
 
-<<<<<<< HEAD
     public void list(View v) {
         pairedDevices = BA.getBondedDevices();
         ArrayList list = new ArrayList();
@@ -211,17 +163,6 @@ public class MainActivity extends Activity  {
         Toast.makeText(getApplicationContext(), "Showing Paired Devices", Toast.LENGTH_SHORT).show();
 
         final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
-=======
-    public void list(View v){
-        pairedDevices = BA.getBondedDevices();
-        ArrayList list = new ArrayList();
-
-        for(BluetoothDevice bt : pairedDevices)
-            list.add(bt.getName());
-        Toast.makeText(getApplicationContext(),"Showing Paired Devices",Toast.LENGTH_SHORT).show();
-
-        final ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, list);
->>>>>>> origin/master
         lv.setAdapter(adapter);
     }
 
@@ -246,7 +187,6 @@ public class MainActivity extends Activity  {
         }
         return super.onOptionsItemSelected(item);
     }
-<<<<<<< HEAD
 
     @Override
     public void onStart() {
@@ -287,6 +227,4 @@ public class MainActivity extends Activity  {
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
-=======
->>>>>>> origin/master
 }
