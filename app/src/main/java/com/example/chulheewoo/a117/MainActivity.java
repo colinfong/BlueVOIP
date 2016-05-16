@@ -59,30 +59,28 @@ public class MainActivity extends Activity {
         BA = BluetoothAdapter.getDefaultAdapter();
         lv = (ListView) findViewById(R.id.listView);
         /****************************/
-
+        //Button assignments for audio playback
         play = (Button) findViewById(R.id.play);
         stop = (Button) findViewById(R.id.stop);
         record = (Button) findViewById(R.id.record);
 
         stop.setEnabled(false);
         play.setEnabled(false);
+        //Choose the destination for the audio recording in the SD card
         outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
-        /*
-        myAudioRecorder = new MediaRecorder();
-        myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        myAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
-        myAudioRecorder.setOutputFile(outputFile);
-        */
+
+        //Assign record button click action
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*create MediaRecorder to declare audio source, output format, and audio encoding*/
                 myAudioRecorder = new MediaRecorder();
                 myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                 myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
                 myAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
                 myAudioRecorder.setOutputFile(outputFile);
                 try {
+                    //Prepare recording device by getting its resources
                     myAudioRecorder.prepare();
                     myAudioRecorder.start();
                 } catch (IllegalStateException e) {
@@ -96,34 +94,44 @@ public class MainActivity extends Activity {
                 //record.setEnabled(false);
                 stop.setEnabled(true);
 
+                //Notify user of recording
                 Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_LONG).show();
             }
         });
 
+        //Declare stop button function
         stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myAudioRecorder.stop();
+                //releases the audio recording resources
                 myAudioRecorder.release();
                 myAudioRecorder = null;
 
+                //Disallow stop from being clicked again
                 stop.setEnabled(false);
+                //Enable the playback of the recorded audio
                 play.setEnabled(true);
 
+                //Announce the reodring of the audio
                 Toast.makeText(getApplicationContext(), "Audio recorded successfully", Toast.LENGTH_LONG).show();
             }
         });
 
+        //Assign action to play button
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) throws IllegalArgumentException, SecurityException, IllegalStateException {
+                //Create a media player
                 MediaPlayer m = new MediaPlayer();
 
+                //Try to play the recorded file
                 try {
                     m.setDataSource(outputFile);
                   } catch (IOException e) {
                     e.printStackTrace();
                 }
+
 
                 try {
                     m.prepare();
