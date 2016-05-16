@@ -58,6 +58,7 @@ public class MainActivity extends Activity {
 
         BA = BluetoothAdapter.getDefaultAdapter();
         lv = (ListView) findViewById(R.id.listView);
+        /****************************/
 
         play = (Button) findViewById(R.id.play);
         stop = (Button) findViewById(R.id.stop);
@@ -114,7 +115,7 @@ public class MainActivity extends Activity {
 
                 try {
                     m.setDataSource(outputFile);
-                } catch (IOException e) {
+                  } catch (IOException e) {
                     e.printStackTrace();
                 }
 
@@ -128,33 +129,33 @@ public class MainActivity extends Activity {
                 Toast.makeText(getApplicationContext(), "Playing audio", Toast.LENGTH_LONG).show();
             }
         });
-
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
+    /*******************************************************************************************************/
     public void on(View v) {
-        if (!BA.isEnabled()) {
+        if (!BA.isEnabled()) { //Bluetooth adapter is not enabled
             Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(turnOn, 0);
-            Toast.makeText(getApplicationContext(), "Turned on", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Turned on", Toast.LENGTH_LONG).show(); //Screen popup notification
         } else {
             Toast.makeText(getApplicationContext(), "Already on", Toast.LENGTH_LONG).show();
         }
     }
 
-    public void off(View v) {
+    public void off(View v) { //Disable bluetooth & notify user
         BA.disable();
         Toast.makeText(getApplicationContext(), "Turned off", Toast.LENGTH_LONG).show();
     }
 
-    public void visible(View v) {
+    public void visible(View v) { //Make device visible to other bluetooth devices
         Intent getVisible = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
         startActivityForResult(getVisible, 0);
     }
 
-    public void list(View v) {
+    public void list(View v) { //List paired bluetooth devices (different from connected)
         pairedDevices = BA.getBondedDevices();
         ArrayList list = new ArrayList();
 
