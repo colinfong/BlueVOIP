@@ -66,15 +66,21 @@ public class MainActivity extends Activity {
         stop.setEnabled(false);
         play.setEnabled(false);
         outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
+        /*
         myAudioRecorder = new MediaRecorder();
         myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         myAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
         myAudioRecorder.setOutputFile(outputFile);
-
+        */
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                myAudioRecorder = new MediaRecorder();
+                myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                myAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+                myAudioRecorder.setOutputFile(outputFile);
                 try {
                     myAudioRecorder.prepare();
                     myAudioRecorder.start();
@@ -86,7 +92,7 @@ public class MainActivity extends Activity {
                     e.printStackTrace();
                 }
 
-                record.setEnabled(false);
+                //record.setEnabled(false);
                 stop.setEnabled(true);
 
                 Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_LONG).show();
