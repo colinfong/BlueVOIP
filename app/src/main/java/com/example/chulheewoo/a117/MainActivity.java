@@ -38,7 +38,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class MainActivity extends Activity {
+import java.io.File;
+import android.support.v7.app.AppCompatActivity;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+
+public class MainActivity extends AppCompatActivity {
+
+    private static final int DISCOVER_DURATION = 300;
+    private static final int REQUEST_BLU = 1;
+
     private BluetoothAdapter BA;
     private Set<BluetoothDevice> pairedDevices;
     ListView lv;
@@ -149,6 +158,95 @@ public class MainActivity extends Activity {
     }
 
     /*******************************************************************************************************/
+
+    // FILE SEND OVER BLUETOOTH
+
+    public void sendViaBluetooth(View v) {
+
+        BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        if(btAdapter == null) {
+            Toast.makeText(this, "Bluetooth is not supported on this device", Toast.LENGTH_LONG).show();
+        } else {
+            enableBluetooth();
+        }
+    }
+
+    public void enableBluetooth() {
+
+        Intent discoveryIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+
+        discoveryIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, DISCOVER_DURATION);
+
+        startActivityForResult(discoveryIntent, REQUEST_BLU);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(resultCode == DISCOVER_DURATION && requestCode == REQUEST_BLU) {
+
+            String baseDir = Environment.getExternalStorageDirectory().getAbsolutePath();
+            String myFile = "download.jpg";
+            //String path= baseDir + "/Download/" + myFile;
+            //String path = "file:///storage/sdcard0/Download/" + myFile;
+            String path = "file://" + Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
+            //if(path.startsWith("file")||path.startsWith("content")||path.startsWith("FILE")||path.startsWith("CONTENT")){
+
+            //}else{
+            //    path="file://"+path;
+            //}
+            /*
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(path));
+            shareIntent.setType("video/mp4");
+            startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.sendTo)));
+            */
+
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            //intent.setType("image/jpeg");
+            intent.setType("audio/3gpp");
+            //File f = new File(Environment.getExternalStorageDirectory(), "31286.txt");
+            //intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(path));
+
+            PackageManager pm = getPackageManager();
+            List<ResolveInfo> appsList = pm.queryIntentActivities(intent, 0);
+
+            if(appsList.size() > 0) {
+                String packageName = null;
+                String className = null;
+                boolean found = false;
+
+                for(ResolveInfo info : appsList) {
+                    packageName = info.activityInfo.packageName;
+                    if(packageName.equals("com.android.bluetooth")) {
+                        className = info.activityInfo.name;
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    Toast.makeText(this, "Bluetooth havn't been found",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    intent.setClassName(packageName, className);
+                    startActivity(intent);
+                }
+            }
+        } else {
+            Toast.makeText(this, "Bluetooth is cancelled", Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
+
+    /*************************************************************************************************/
+
+    // BLUETOOTH CONNECTION AUX FXNS
+
     public void on(View v) {
         if (!BA.isEnabled()) { //Bluetooth adapter is not enabled
             Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -180,6 +278,7 @@ public class MainActivity extends Activity {
         final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
         lv.setAdapter(adapter);
     }
+    /*************************************************************************************************/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
