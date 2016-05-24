@@ -70,8 +70,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listView"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/textView2" />
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -80,9 +81,9 @@
         android:id="@+id/textView2"
         android:textColor="#ff34ff06"
         android:textSize="25dp"
-        android:layout_below="@+id/send"
-        android:layout_alignLeft="@+id/listView"
-        android:layout_alignStart="@+id/listView" />
+        android:layout_below="@+id/playRec"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_height="wrap_content"
@@ -91,5 +92,15 @@
         android:text="Send Recording via Bluetooth"
         android:onClick="sendViaBluetooth"
         android:layout_below="@id/record"/>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play Received Recording"
+        android:id="@+id/playRec"
+        android:layout_below="@+id/send"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

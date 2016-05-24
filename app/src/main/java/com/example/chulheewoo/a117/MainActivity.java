@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothAdapter BA;
     private Set<BluetoothDevice> pairedDevices;
     ListView lv;
-    Button play, stop, record;
+    Button play, stop, record, playRec;
     private MediaRecorder myAudioRecorder;
     private String outputFile = null;
     /**
@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         play = (Button) findViewById(R.id.play);
         stop = (Button) findViewById(R.id.stop);
         record = (Button) findViewById(R.id.record);
+        playRec = (Button) findViewById(R.id.playRec);
+
 
         stop.setEnabled(false);
         play.setEnabled(false);
@@ -132,12 +134,53 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) throws IllegalArgumentException, SecurityException, IllegalStateException {
                 //Create a media player
-                MediaPlayer m = new MediaPlayer();
+                        MediaPlayer m = new MediaPlayer();
 
                 //Try to play the recorded file
                 try {
                     m.setDataSource(outputFile);
-                  } catch (IOException e) {
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+                try {
+                    m.prepare();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                m.start();
+                Toast.makeText(getApplicationContext(), "Playing audio", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        playRec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) throws IllegalArgumentException, SecurityException, IllegalStateException {
+                //Create a media player
+                MediaPlayer m = new MediaPlayer();
+
+                //Try to play the recorded file
+                try {
+                    boolean found = true;
+                    String ourFile = null;
+                    String recFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/recording";
+                    int a = 1;
+                    while(found) {
+                            File file = new File(recFile.concat("-" + a + ".3gp"));
+                            if(file.exists()) {
+                                ourFile = recFile.concat("-" + a + ".3gp");
+                                a++;
+                            } else {
+                                found = false;
+                            }
+                    }
+                    if(ourFile == null) {
+                        ourFile = outputFile;
+                    }
+                    m.setDataSource(ourFile);
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
@@ -341,4 +384,6 @@ public class MainActivity extends AppCompatActivity {
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
+
+
 }
